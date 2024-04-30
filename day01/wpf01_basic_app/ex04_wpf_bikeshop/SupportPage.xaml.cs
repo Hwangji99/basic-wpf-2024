@@ -24,5 +24,25 @@ namespace ex04_wpf_bikeshop
         {
             InitializeComponent();
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var bikeList = new List<Bike>();
+            bikeList.Add(new Bike() { Speed = 40, Color = Colors.Purple });
+            bikeList.Add(new Bike() { Speed = 20, Color = Colors.Pink });
+            bikeList.Add(new Bike() { Speed = 25, Color = Colors.Crimson });
+            bikeList.Add(new Bike() { Speed = 70, Color = Colors.White });
+            bikeList.Add(new Bike() { Speed = 50, Color = Colors.Black });
+            bikeList.Add(new Bike() { Speed = 80, Color = Colors.Bisque });
+
+            // ListBox에 데이터 할당
+            Lsbikes.DataContext = bikeList;
+        }
+
+        private void Lsbikes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selItem = (Lsbikes.SelectedItem as Bike);
+            MessageBox.Show(selItem.Speed.ToString() + " / " + selItem.Color.ToString());
+        }
     }
 }

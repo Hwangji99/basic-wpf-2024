@@ -24,7 +24,7 @@
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="50" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="Local BikeShop" FontFamily="Bauhaus 93" FontWeight="Bold" FontSize="48" Foreground="Red" />
+            <Label Content="Local BikeShop" FontFamily="Blackadder ITC" FontWeight="Bold" FontSize="48" Foreground="#FF00FF56" />
         </Grid>
     </Grid>
 </Page>

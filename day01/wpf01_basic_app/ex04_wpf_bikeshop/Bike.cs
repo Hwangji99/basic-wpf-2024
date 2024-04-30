@@ -11,6 +11,6 @@ namespace ex04_wpf_bikeshop
     {
         public double Speed { get; set; } // 자동 프로퍼티
 
-        public Color Color { get; set; } // 
+        public Color Color { get; set; }
     }
 }

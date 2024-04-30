@@ -7,30 +7,36 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ContactPage" Loaded="Page_Loaded">
-
+    <Page.Resources>
+        <local:TwiceConverter x:Key="TwiceConvr" />
+    </Page.Resources>
+    
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        
-        <Grid>
-            <Label Content="받는사람" HorizontalAlignment="Left" Margin="15,21,0,0"
-                    VerticalAlignment="Top"/>
-            <Label Content="내용" HorizontalAlignment="Left" Margin="15,65,0,0"
-                    VerticalAlignment="Top"/>
-            <TextBox x:Name="TxtSender" Margin="86,21,32,0" TextWrapping="Wrap" Text=""
-                    VerticalAlignment="Top" Height="22" ToolTip="받는사람 주소"/>
-            <TextBox x:Name="TxtContent" Margin="86,65,32,19" TextWrapping="Wrap" Text=""
-                    ToolTip="내용입력"/>
-            <Label HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    xmlns:bk="clr-namespace:ex04_wpf_bikeshop.Logic">
-                <bk:Bike x:Name="DGBike" Speed="50" Color="AntiqueWhite" />
-            </Label>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="받는사람" HorizontalAlignment="Left" />
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="10"  Text="{Binding Path=Speed, ElementName=DgBike, Converter={StaticResource TwiceConvr}}"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="내용" />
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" />
         </Grid>
 
         <Grid Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel  Orientation="Horizontal">
                 <ListBox Width="200" Height="60" Margin="10">
                     <Label Content="첫번째 요소" />
                     <TextBlock Text="두번째 요소" />
@@ -45,8 +51,33 @@
                         추가내용
                     </GroupBox>
                 </ComboBox>
+                <StackPanel Orientation="Vertical" Margin="10" Height="96" RenderTransformOrigin="0.5,0.5">
+                    <StackPanel.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </StackPanel.RenderTransform>
+                    <ProgressBar Minimum="0" Maximum="100" Width="300" Height="20"
+                                 Value="{Binding Path=Value, ElementName=SldValue}"/>
+                    <Slider x:Name="SldValue" Minimum="0" Maximum="100" Width="300" Height="20" />
+                    <Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SldValue, StringFormat={}{0:0.0}}" />
+                </StackPanel>
             </StackPanel>
         </Grid>
 
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Vertical">
+                <Label>
+                    <local:Bike x:Name="DgBike" Speed ="60" Color="Brown" />
+                </Label>
+                <StackPanel x:Name="StpBike">
+                    <TextBox Text="{Binding Path=Speed}"/>
+                    <Label Content="{Binding Path=Color}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
