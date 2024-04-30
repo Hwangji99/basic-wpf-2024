@@ -16,24 +16,13 @@ using System.Windows.Shapes;
 namespace ex04_wpf_bikeshop
 {
     /// <summary>
-    /// ContactPage.xaml에 대한 상호 작용 논리
+    /// SupportPage.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ContactPage : Page
+    public partial class SupportPage : Page
     {
-        public ContactPage()
+        public SupportPage()
         {
             InitializeComponent();
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            // 코드에서는 속성의 값을 지정할 때 사용방법
-            Bike myBike = new Bike();
-            myBike.Speed = 60;
-            myBike.Color = Colors.Black;
-
-            TextBox text1 = new TextBox();
-            //MessageBox.Show(DGBike.Speed.ToString());
         }
     }
 }
