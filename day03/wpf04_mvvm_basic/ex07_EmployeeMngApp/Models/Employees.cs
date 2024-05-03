@@ -6,7 +6,7 @@
         public string EmpName { get; set; }
         public decimal Salary { get; set; }
         public string DeptName { get; set; }
-        public int Addr { get; set; }
+        public string Addr { get; set; }
 
         public static readonly string SELECT_QUERY = @"SELECT [ID]
                                                             , [EmpName]

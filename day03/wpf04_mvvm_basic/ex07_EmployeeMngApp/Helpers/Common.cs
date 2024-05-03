@@ -6,7 +6,7 @@
                                                    "Initial Catalog=EMS;" +
                                                    "Persist Security Info=True;" +
                                                    "User ID=ems_user;" +
-                                                   "Encrypt=False" +
-                                                   "Password=ems_p@ss";
+                                                   "Encrypt=False;" +
+                                                   "Password=ems_p@ss;";
     }
 }
