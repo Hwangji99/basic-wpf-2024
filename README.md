@@ -120,7 +120,11 @@ IoT 개발자 WPF 학습 리포지토리
 
     ![저장화면](https://github.com/Hwangji99/basic-wpf-2024/blob/main/images/wpf004.png)
 
-- Movie API 연동 앱
+- Movie API 연동 앱, MovieFinder 2024
+    - DB(SQL Server) 연동
+    - MahApps.Metro
+    - OpenAPI 두가지 사용
+    - MVVM은 시간 부족으로 사용 안함
     - 좋아하는 영화 즐겨찾기 앱
     - [TMDB][https://www.themoviedb.org/]() OpenAPI 활용
         - 회원가입 후 API 신청
