@@ -9,7 +9,8 @@
     xmlns:local="clr-namespace:ex10_MovieFinder2024"
     mc:Ignorable="d"
     Title="MovieFinder 2024" Height="580" Width="1000" 
-    MinHeight="370" MinWidth="530" FontFamily="NanumGothic"> <!-- MinHeight, MinWidth는 최소사이즈 (그 이상으로줄어들지 않는다) -->
+    MinHeight="370" MinWidth="530" FontFamily="NanumGothic"
+    Loaded="MetroWindow_Loaded"> <!-- MinHeight, MinWidth는 최소사이즈 (그 이상으로줄어들지 않는다) -->
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <iconPacks:PackIconMaterial Kind="MovieStar" Margin="10,7,0,0" Foreground="White" />

@@ -9,7 +9,8 @@
     xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
     xmlns:local="clr-namespace:ex10_MovieFinder2024"
     mc:Ignorable="d"
-    Title="유튜브 예고편" Height="350" Width="800" FontFamily="NanumGothic">
+    Title="유튜브 예고편" Height="560" Width="800" FontFamily="NanumGothic"
+    Loaded="MetroWindow_Loaded" Closing="MetroWindow_Closing">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <iconPacks:PackIconModern Kind="Youtube" Foreground="White" Margin="10,7,0,0" />
@@ -18,7 +19,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="510" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -28,7 +29,7 @@
         <Label x:Name="LblMovieName" Grid.Row="0" Grid.Column="0"
                FontSize="14" Margin="10" Content="영화제목" />
         <ListView x:Name="LsvResult" Grid.Row="1" Grid.Column="0"
-                  Margin="10">
+                  Margin="10" SelectionChanged="LsvResult_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="썸네일" Width="100">
