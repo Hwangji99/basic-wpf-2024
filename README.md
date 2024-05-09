@@ -122,10 +122,12 @@ IoT 개발자 WPF 학습 리포지토리
 
 - Movie API 연동 앱, MovieFinder 2024
     - 좋아하는 영화 즐겨찾기 앱
+    - SQLCerver를 아용함)
     - DB(SQL Server) 연동
     - MahApps.Metro UI
     - CefSharp WebBrowser 패키지
     - Google.Apis 패키지
+    - Newtonsoft. Json 패키지
     - MVVM은 사용 안함
     - OpenAPI 두가지 사용
     - [TMDB][https://www.themoviedb.org/]() OpenAPI 활용
@@ -147,19 +149,20 @@ IoT 개발자 WPF 학습 리포지토리
     - 즐겨찾기 일부만 저장기능 추가
     - 그리드뷰 영화를 더블클릭하면 영화소개 팝업
 
-## 7일차(2024-05-13)
+## 7일차(2024-05-09)
 - MovieFinder 2024 완료
-
   
 
 https://github.com/Hwangji99/basic-wpf-2024/assets/158007430/eb0e7001-5514-42ba-8113-de31b9867852
 
 
-
 - 데이터포털 API로 연동앱 예제
-    - 5월 13일 개인 프로젝트 참조 소스
+    - CefSharp 사용 시 플랫폼 대상 AnyCPU에서 x64로 변경 필수
+    - MahApps.Metro UI, IconPacks
+    - Newtonsoft.Json
+    - 개인 프로젝트 참조 소스
 
-## 8일차(2024-05-14)
+## 8일차(2024-05-13)
 - WPF 개인프로젝트 포트폴리오 작업
 
 
