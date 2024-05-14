@@ -154,7 +154,7 @@ namespace ex11_Gimhae_FineDust
 
         private void CboReqDate_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
+            InitComboDateFromDB();
         }
 
         private void GrdResult_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)

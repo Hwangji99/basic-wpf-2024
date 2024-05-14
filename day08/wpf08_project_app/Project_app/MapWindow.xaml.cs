@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ex11_Gimhae_FineDust
+namespace Project_app
 {
     /// <summary>
     /// MapWindow.xaml에 대한 상호 작용 논리
@@ -12,9 +12,9 @@ namespace ex11_Gimhae_FineDust
             InitializeComponent();
         }
 
-        public MapWindow(double coordy, double coordx) : this()
+        public MapWindow(double posy, double posx) : this()
         {
-            BrsLoc.Address = $"https://google.com/maps/place/{coordy},{coordx}";
+            BrsLoc.Address = $"https://google.com/maps/place/{posy},{posx}";
         }
     }
 }
