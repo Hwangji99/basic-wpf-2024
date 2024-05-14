@@ -8,7 +8,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Project_app"
     mc:Ignorable="d"
-    Title="Animal Rescue" Height="450" Width="800" MinHeight="300" MinWidth="600"
+    Title="Animal Rescue Service" Height="450" Width="800" MinHeight="300" MinWidth="600"
     FontFamily="NanumGothic" Loaded="MetroWindow_Loaded">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -63,7 +63,7 @@
 
         <!-- 맨하단 상태바 위치 -->
         <StatusBar Grid.Row="2">
-            <StatusBarItem Content="119 구조 반려동물 정보" />
+            <StatusBarItem Content="119 구조 반려동물" />
             <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
             <StatusBarItem x:Name="StsResult" />
         </StatusBar>
