@@ -122,7 +122,7 @@ IoT 개발자 WPF 학습 리포지토리
 
 - Movie API 연동 앱, MovieFinder 2024
     - 좋아하는 영화 즐겨찾기 앱
-    - SQLCerver를 아용함)
+    - SQLCerver를 이용함
     - DB(SQL Server) 연동
     - MahApps.Metro UI
     - CefSharp WebBrowser 패키지
