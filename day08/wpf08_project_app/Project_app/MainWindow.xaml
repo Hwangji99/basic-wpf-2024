@@ -5,14 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Project_app"
     mc:Ignorable="d"
-    Title="Travel Alarm Service" Height="450" Width="800" MinHeight="300" MinWidth="600"
+    Title="Animal Rescue" Height="450" Width="800" MinHeight="300" MinWidth="600"
     FontFamily="NanumGothic" Loaded="MetroWindow_Loaded">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
-            <iconPack:PackIconMaterial Kind="Airplane"  Margin="10,7,0,0" Foreground="White" />
+            <iconPacks:PackIconFontAwesome Kind="PawSolid" Margin="10,7,0,0" Foreground="White" />
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
     <Grid>
@@ -29,14 +29,9 @@
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
-            <Label Content="지역별 여행 경보" FontSize="16" FontWeight="Bold" Margin="10" />
+            <Label Content="119 구조 반려동물 정보" FontSize="16" FontWeight="Bold" Margin="10" />
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBox x:Name="EmpName" Grid.Row="1" Grid.Column="1"
-                         VerticalAlignment="Center" Width="100" Height="38"
-                         mah:TextBoxHelper.Watermark="국가명 입력" Margin="5,10"
-                         mah:TextBoxHelper.UseFloatingWatermark="True"
-                         mah:TextBoxHelper.ClearTextButton="True" />
                 <Button x:Name="BtnReqRealtime" Content="조회" Width="100" Margin="5,10" 
                     Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
                     Click="BtnReqRealtime_Click" />
@@ -53,11 +48,22 @@
         <DataGrid x:Name="GrdResult" Grid.Row="1" Margin="10"
               IsReadOnly="True" ItemsSource="{Binding}"
               Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
-              MouseDoubleClick="GrdResult_MouseDoubleClick" />
+              MouseDoubleClick="GrdResult_MouseDoubleClick" 
+              AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Sj}" Header="구조정보" FontWeight="Bold" Width="460" />
+                <DataGridTextColumn Binding="{Binding Cn}" Header="내용" FontWeight="Bold" Width="620" />
+                <DataGridTextColumn Binding="{Binding Ty3Date}" Header="포획일시" FontWeight="Bold" Width="140" />
+                <DataGridTextColumn Binding="{Binding Ty3Place}" Header="포획장소" FontWeight="Bold" Width="350" />
+                <DataGridTextColumn Binding="{Binding Ty3Kind}" Header="동물종류" FontWeight="Bold" Width="150" />
+                <DataGridTextColumn Binding="{Binding Ty3Sex}" Header="성별" FontWeight="Bold" Width="50" />
+                <DataGridTextColumn Binding="{Binding Ty3Process}" Header="처리현황" FontWeight="Bold" Width="100" />
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- 맨하단 상태바 위치 -->
         <StatusBar Grid.Row="2">
-            <StatusBarItem Content="지역별 여행 경보" />
+            <StatusBarItem Content="119 구조 반려동물 정보" />
             <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
             <StatusBarItem x:Name="StsResult" />
         </StatusBar>
