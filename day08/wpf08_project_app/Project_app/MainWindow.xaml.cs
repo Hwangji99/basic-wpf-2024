@@ -8,6 +8,8 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Windows;
 using Project_app.Models;
+using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace Project_app
 {
@@ -94,6 +96,9 @@ namespace Project_app
 
         private void GrdResult_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            
+        
+
 
         }
     }
