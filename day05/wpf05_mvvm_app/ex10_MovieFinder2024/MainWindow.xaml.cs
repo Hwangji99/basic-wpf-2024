@@ -123,7 +123,7 @@ namespace ex10_MovieFinder2024
 
         private async void GrdResult_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            // 재검색하면 데이터그리드 겨로가가 바뀌면서 이 이벤트가 다시 발생
+            // 재검색하면 데이터그리드 결과가 바뀌면서 이 이벤트가 다시 발생
             try
             {
                 var movie = GrdResult.SelectedItem as MovieItem;

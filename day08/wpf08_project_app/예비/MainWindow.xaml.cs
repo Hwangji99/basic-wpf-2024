@@ -9,7 +9,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using Project_app.Models;
+using ex10_MovieFinder2024.Models;
 using System.Windows.Media.Imaging;
 using Microsoft.Data.SqlClient;
 using CefSharp.DevTools.Page;
@@ -27,11 +27,6 @@ namespace Project_app
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            TxtAnimalName.Focus();
         }
 
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
@@ -100,11 +95,11 @@ namespace Project_app
                 }
 
                 this.DataContext = animalRescues;
-                //StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
+                StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
             }
         }
 
-        private void TxtAnimalName_KeyDown(object sender, KeyEventArgs e)
+        private void TxtMovieName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -118,7 +113,7 @@ namespace Project_app
             try
             {
                 var animal = GrdResult.SelectedItem as AnimalRescue;
-                var ty3Picture = animal.Ty3Picture;
+                var ty3Picture = animal.Ty3Picture
 
                 // await this.ShowMessageAsync("포스터", poster_path);
                 if (string.IsNullOrEmpty(ty3Picture))
@@ -182,7 +177,7 @@ namespace Project_app
                     }
                     this.DataContext = NCAnimals;
                     isFavorite = true; // 즐겨찾기 DB에서
-                    //StsResult.Content = $"즐겨찾기 {NCAnimals.Count}건 조회 완료";
+                    StsResult.Content = $"즐겨찾기 {NCAnimals.Count}건 조회 완료";
                     ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
                 }
             }
@@ -218,8 +213,8 @@ namespace Project_app
                     var delRes = 0;
                     foreach (AnimalRescue item in GrdResult.SelectedItems)
                     {
-                        SqlCommand cmd = new SqlCommand(Models.AnimalRescue.DELETE_QUERY, conn);
-                        cmd.Parameters.AddWithValue("@cn", item.Cn);
+                        SqlCommand cmd = new SqlCommand(Models.MovieItem.DELETE_QUERY, conn);
+                        cmd.Parameters.AddWithValue("@Id", item.Id);
 
                         delRes += cmd.ExecuteNonQuery();
                     }
@@ -283,18 +278,18 @@ namespace Project_app
 
                         SqlCommand cmd = new SqlCommand(Models.AnimalRescue.INSERT_QUERY, conn);
 
-                        cmd.Parameters.AddWithValue("@ty3Ingye", item.Ty3Ingye);
-                        cmd.Parameters.AddWithValue("@writngDe", item.WritngDe);
-                        cmd.Parameters.AddWithValue("@ty3Place", item.Ty3Place);
-                        cmd.Parameters.AddWithValue("@ty3Sex", item.Ty3Sex);
-                        cmd.Parameters.AddWithValue("@cn", item.Cn);
-                        cmd.Parameters.AddWithValue("@ty3Date", item.Ty3Date);
-                        cmd.Parameters.AddWithValue("@wrter", item.Wrter);
-                        cmd.Parameters.AddWithValue("@ty3Insu", item.Ty3Insu);
-                        cmd.Parameters.AddWithValue("@ty3Picture", item.Ty3Picture);
-                        cmd.Parameters.AddWithValue("@ty3Kind", item.Ty3Kind);
-                        cmd.Parameters.AddWithValue("@sj", item.Sj);
-                        cmd.Parameters.AddWithValue("@ty3Process", item.Ty3Process);
+                        cmd.Parameters.AddWithValue("@ty3Ingye", item.ty3Ingye);
+                        cmd.Parameters.AddWithValue("@writngDe", item.writngDe);
+                        cmd.Parameters.AddWithValue("@ty3Place", item.ty3Place);
+                        cmd.Parameters.AddWithValue("@ty3Sex", item.ty3Sex);
+                        cmd.Parameters.AddWithValue("@cn", item.cn);
+                        cmd.Parameters.AddWithValue("@ty3Date", item.ty3Date);
+                        cmd.Parameters.AddWithValue("@wrter", item.wrter);
+                        cmd.Parameters.AddWithValue("@ty3Insu", item.ty3Insu);
+                        cmd.Parameters.AddWithValue("@ty3Picture", item.ty3Picture);
+                        cmd.Parameters.AddWithValue("@ty3Kind", item.ty3Kind);
+                        cmd.Parameters.AddWithValue("@sj", item.sj);
+                        cmd.Parameters.AddWithValue("@ty3Process", item.ty3Process);
 
                         insRes += cmd.ExecuteNonQuery(); // 데이터 하나마다 INSERT 쿼리 실행
                     }
@@ -340,18 +335,18 @@ namespace Project_app
         //    trailerWindow.ShowDialog();
         //}
 
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            TxtAnimalName.Focus();
+        }
 
         // 데이터그리드 더블클릭시 발생 이벤트핸들러
         private async void GrdResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //var curItem = GrdResult.SelectedItem as AnimalRescue;
+            //Debug.WriteLine(GrdResult.SelectedItem);
+            //var curItem = GrdResult.SelectedItem as MovieItem;
 
-            //var mapWindow = new MapWindow(curItem.Coordy, curItem.Coordx);
-            //mapWindow.Owner = this;
-            //mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            //mapWindow.ShowDialog();
+            //await this.ShowMessageAsync($"{curItem.Title} ({curItem.Overview})", curItem.Overview);
         }
-    }
-
     }
 }

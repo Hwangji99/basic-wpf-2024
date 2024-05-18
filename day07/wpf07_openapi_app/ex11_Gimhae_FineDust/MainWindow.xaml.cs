@@ -94,7 +94,7 @@ namespace ex11_Gimhae_FineDust
                 {
                     dustSensors.Add(new DustSensor()
                     {
-                        Id = 0,
+                        //Id = 0,
                         Dev_id = Convert.ToString(item["dev_id"]),
                         Name = Convert.ToString(item["name"]),
                         Loc = Convert.ToString(item["loc"]),
@@ -183,7 +183,7 @@ namespace ex11_Gimhae_FineDust
                     {
                         dustSensors.Add(new DustSensor
                         {
-                            Id = Convert.ToInt32(row["Id"]),
+                            //Id = Convert.ToInt32(row["Id"]),
                             Dev_id = Convert.ToString(row["Dev_id"]),
                             Name = Convert.ToString(row["Name"]),
                             Loc = Convert.ToString(row["Loc"]),

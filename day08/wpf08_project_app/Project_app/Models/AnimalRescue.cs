@@ -87,6 +87,12 @@ namespace Project_app.Models
                                                              ,[ty3Picture]
                                                          FROM [dbo].[AnimalRescue]";
 
+        public static readonly string CHECK_QUERY = @"SELECT COUNT(*) 
+                                                        FROM AnimalRescue
+                                                       WHERE resultCode = @resultCode";
+
+        public static readonly string DELETE_QUERY = @"DELETE FROM [dbo].[AnimalRescue] WHERE resultCode = @resultCode";
+
         //public static readonly string GETDATE_QUERY = @"SELECT CONVERT(CHAR(10), Written, 23) AS Save_Date
         //                                                  FROM [dbo].[TravelAlarmService]
         //                                                 GROUP BY CONVERT(CHAR(10), Written, 23)";
