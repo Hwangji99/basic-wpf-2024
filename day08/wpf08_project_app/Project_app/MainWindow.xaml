@@ -36,12 +36,12 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="TxtAnimalName" Grid.Row="0" Grid.Column="0" Margin="5,10"
+            <TextBox x:Name="TxtAnimalKind" Grid.Row="0" Grid.Column="0" Margin="5,10"
                      FontSize="14"
-                     mah:TextBoxHelper.Watermark="조회할 반려동물명 입력"
+                     mah:TextBoxHelper.Watermark="조회할 반려동물종 입력"
                      mah:TextBoxHelper.ClearTextButton="True" 
                      mah:TextBoxHelper.UseFloatingWatermark="True"
-                     KeyDown="TxtAnimalName_KeyDown"/>
+                     KeyDown="TxtAnimalKind_KeyDown"/>
             <Button x:Name="BtnSearch" Grid.Row="0" Grid.Column="1" Margin="5,10"
                     FontSize="14" Content="조회"
                     Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
@@ -71,13 +71,15 @@
                 <DataGridTextColumn Binding="{Binding Ty3Place}" Header="포획장소" />
                 <DataGridTextColumn Binding="{Binding Ty3Kind}" Header="동물종류" />
                 <DataGridTextColumn Binding="{Binding Ty3Sex}" Header="성별" />
+                <DataGridTextColumn Binding="{Binding Ty3Ingye}" Header="인계" />
+                <DataGridTextColumn Binding="{Binding Ty3Insu}" Header="인수" />
                 <DataGridTextColumn Binding="{Binding Ty3Process}" Header="처리현황" />
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- 포스터 영역 -->
         <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-            <GroupBox Header="포스터" Margin="10"
+            <GroupBox Header="동물 사진" Margin="10"
                       mah:HeaderedControlHelper.HeaderFontSize="14"
                       mah:HeaderedControlHelper.HeaderFontWeight="Bold"
                       mah:HeaderedControlHelper.HeaderHorizontalContentAlignment="Center">

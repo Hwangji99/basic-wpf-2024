@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Data.SqlClient;
 using CefSharp.DevTools.Page;
 using System.Data;
+using System.Net.Http;
 
 namespace Project_app
 {
@@ -31,24 +32,23 @@ namespace Project_app
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            TxtAnimalName.Focus();
+            TxtAnimalKind.Focus();
         }
 
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            // await this.ShowMessageAsync("검색", "검색을 시작합니다!!");
-            if (string.IsNullOrEmpty(TxtAnimalName.Text))
-            {
-                await this.ShowMessageAsync("검색", "검색할 동물명을 입력하세요.");
-                return;
-            }
+            //if (string.IsNullOrEmpty(TxtAnimalKind.Text))
+            //{
+            //    await this.ShowMessageAsync("조회", "조회할 동물종을 입력하세요.");
+            //    return;
+            //}
 
-            SearchMovie(TxtAnimalName.Text);
+            SearchAnimal(TxtAnimalKind.Text);
             isFavorite = false; // 검색은 즐겨찾기 보기 아님
             ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
         }
 
-        private async void SearchMovie(string movieName)
+        private async void SearchAnimal(string animalKind)
         {
             string openApiUri = "http://apis.data.go.kr/6260000/BusanPetAnimalInfoService/getPetAnimalInfo?serviceKey=z6BhxEUBu1diXG%2FWmiJHqqj5SbvVqzr%2BikJSCKelgBVoiUaOonc3nsfQn5S9bQAfr9NIkJSf5qPojF%2BPYaR8qg%3D%3D&numOfRows=10&pageNo=1&resultType=json";
             string result = string.Empty;
@@ -70,7 +70,9 @@ namespace Project_app
             catch (Exception ex)
             {
                 await this.ShowMessageAsync("오류", $"OpenAPI 조회오류 {ex.Message}");
+                return;
             }
+
             var jsonResult = JObject.Parse(result);
             var resultCode = Convert.ToInt32(jsonResult["getPetAnimalInfo"]["header"]["resultCode"]);
 
@@ -82,29 +84,45 @@ namespace Project_app
                 var animalRescues = new List<AnimalRescue>();
                 foreach (var item in jsonArray)
                 {
-                    animalRescues.Add(new AnimalRescue()
+                    var ty3Kind = Convert.ToString(item["ty3Kind"]);
+                    // 만약 검색어가 비어 있거나, 동물 종류가 검색어를 포함하고 있다면 데이터에 추가합니다.
+                    if (string.IsNullOrEmpty(animalKind) || (!string.IsNullOrEmpty(ty3Kind) && ty3Kind.Contains(animalKind, StringComparison.OrdinalIgnoreCase)))
                     {
-                        Ty3Ingye = Convert.ToString(item["ty3Ingye"]),
-                        WritngDe = Convert.ToDateTime(item["writngDe"]),
-                        Ty3Place = Convert.ToString(item["ty3Place"]),
-                        Ty3Sex = Convert.ToString(item["ty3Sex"]),
-                        Cn = Convert.ToString(item["cn"]),
-                        Ty3Date = Convert.ToString(item["ty3Date"]),
-                        Wrter = Convert.ToString(item["wrter"]),
-                        Ty3Insu = Convert.ToString(item["ty3Insu"]),
-                        Ty3Picture = Convert.ToString(item["ty3Picture"]),
-                        Ty3Kind = Convert.ToString(item["ty3Kind"]),
-                        Sj = Convert.ToString(item["sj"]),
-                        Ty3Process = Convert.ToString(item["ty3Process"]),
-                    });
+                        animalRescues.Add(new AnimalRescue()
+                        {
+                            Ty3Ingye = Convert.ToString(item["ty3Ingye"]),
+                            WritngDe = Convert.ToDateTime(item["writngDe"]),
+                            Ty3Place = Convert.ToString(item["ty3Place"]),
+                            Ty3Sex = Convert.ToString(item["ty3Sex"]),
+                            Cn = Convert.ToString(item["cn"]),
+                            Ty3Date = Convert.ToString(item["ty3Date"]),
+                            Wrter = Convert.ToString(item["wrter"]),
+                            Ty3Insu = Convert.ToString(item["ty3Insu"]),
+                            Ty3Picture = Convert.ToString(item["ty3Picture"]),
+                            Ty3Kind = ty3Kind,
+                            Sj = Convert.ToString(item["sj"]),
+                            Ty3Process = Convert.ToString(item["ty3Process"]),
+                        });
+                    }
                 }
 
-                this.DataContext = animalRescues;
-                //StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
+                if (animalRescues.Count > 0)
+                {
+                    this.DataContext = animalRescues;
+                    //StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
+                }
+                else
+                {
+                    await this.ShowMessageAsync("검색 결과", "해당 종에 대한 검색 결과가 없습니다.");
+                }
+            }
+            else
+            {
+                await this.ShowMessageAsync("오류", $"OpenAPI 응답 오류: {resultCode}");
             }
         }
 
-        private void TxtAnimalName_KeyDown(object sender, KeyEventArgs e)
+        private void TxtAnimalKind_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -120,15 +138,23 @@ namespace Project_app
                 var animal = GrdResult.SelectedItem as AnimalRescue;
                 var ty3Picture = animal.Ty3Picture;
 
-                // await this.ShowMessageAsync("포스터", poster_path);
                 if (string.IsNullOrEmpty(ty3Picture))
                 {
                     ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
                 }
                 else
                 {
-                    var base_url = "http://apis.data.go.kr/6260000/BusanPetAnimalInfoService/getPetAnimalInfo?serviceKey=z6BhxEUBu1diXG%2FWmiJHqqj5SbvVqzr%2BikJSCKelgBVoiUaOonc3nsfQn5S9bQAfr9NIkJSf5qPojF%2BPYaR8qg%3D%3D&numOfRows=10&pageNo=1&resultType=json";
-                    ImgPoster.Source = new BitmapImage(new Uri($"{base_url}{ty3Picture}", UriKind.Absolute));
+                    using (var client = new HttpClient())
+                    {
+                        var imageStream = await client.GetStreamAsync(ty3Picture);
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.StreamSource = imageStream;
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.EndInit();
+
+                        ImgPoster.Source = bitmapImage;
+                    }
                 }
 
             }
@@ -143,7 +169,7 @@ namespace Project_app
         {
             //await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 확인합니다.");
             this.DataContext = null; // 데이터그리드에 보낸 데이터를 모두 삭제
-            TxtAnimalName.Text = string.Empty;
+            TxtAnimalKind.Text = string.Empty;
 
             List<AnimalRescue> NCAnimals = new List<AnimalRescue>();
 
@@ -351,7 +377,12 @@ namespace Project_app
             //mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             //mapWindow.ShowDialog();
         }
+
+        private void TxtAnimalKind_KeyDown_1(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 
-    }
+    
 }
