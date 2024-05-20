@@ -8,8 +8,9 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Project_app"
     mc:Ignorable="d"
-    Title="Animal Rescue Service" Height="450" Width="800"
+    Title="Animal Rescue Service" Height="580" Width="1000"
     MinHeight="300" MinWidth="600" FontFamily="NanumGothic" 
+    WindowStartupLocation="CenterScreen"
     Loaded="MetroWindow_Loaded">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -88,9 +89,9 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Button x:Name="BtnAddFavorite" Content="즐겨찾기 추가" Margin="5,20" FontSize="12"
+            <Button x:Name="BtnAddColdcase" Content="미인수건 추가" Margin="5,20" FontSize="12"
                     Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
-                    Click="BtnAddFavorite_Click">
+                    Click="BtnAddColdcase_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -101,9 +102,9 @@
                 </Button.ContentTemplate>
             </Button>
 
-            <Button x:Name="BtnViewFavorite" Content="즐겨찾기 보기" Margin="5,20" FontSize="12" Height="40"
+            <Button x:Name="BtnViewColdcase" Content="미인수건 보기" Margin="5,20" FontSize="12" Height="40"
                     Style="{StaticResource MahApps.Styles.Button.Square.Highlight}"
-                    Click="BtnViewFavorite_Click">
+                    Click="BtnViewColdcase_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -114,9 +115,9 @@
                 </Button.ContentTemplate>
             </Button>
 
-            <Button x:Name="BtnDelFavorite" Content="삭제" Margin="5,20" FontSize="12" Height="40"
+            <Button x:Name="BtnDelColdcase" Content="삭제" Margin="5,20" FontSize="12" Height="40"
                     Style="{StaticResource MahApps.Styles.Button.Square}"
-                    Click="BtnDelFavorite_Click">
+                    Click="BtnDelColdcase_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -153,7 +154,7 @@
             </Button>-->
 
         </StackPanel>
-        <WebBrowser x:Name="MapBrowser" Grid.Row="1" Grid.Column="1" Margin="5" />
+        
         <!--<StatusBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
             <StatusBarItem Content="Tmdb &amp; YouTube OpenAPI App" />
             <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />

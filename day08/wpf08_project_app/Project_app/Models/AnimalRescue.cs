@@ -9,12 +9,6 @@ namespace Project_app.Models
 {
     public class AnimalRescue
     {
-        public string ResultCode { get; set; } // 결과코드
-        public string ResultMsg { get; set; } // 결과 메시지
-        public int NumOfRows { get; set; } // 한 페이지 결과 수
-        public int PageNo { get; set; } // 페이지 번호
-        public int TotalCount { get; set; } // 전체 결과 수
-        public int NttNo { get; set; } // NTT_NO
         public string Sj { get; set; } // 구조정보
         public string Wrter { get; set; } // 작성자
         public DateTime WritngDe { get; set; } // 작성일
@@ -29,13 +23,7 @@ namespace Project_app.Models
         public string Ty3Picture { get; set; } // 동물사진
 
         public static readonly string INSERT_QUERY = @"INSERT INTO [dbo].[AnimalRescue]
-                                                                       ([resultCode]
-                                                                       ,[resultMsg]
-                                                                       ,[numOfRows]
-                                                                       ,[pageNo]
-                                                                       ,[totalCount]
-                                                                       ,[nttNo]
-                                                                       ,[sj]
+                                                                       ([sj]
                                                                        ,[wrter]
                                                                        ,[writngDe]
                                                                        ,[cn]
@@ -48,13 +36,7 @@ namespace Project_app.Models
                                                                        ,[ty3Insu]
                                                                        ,[ty3Picture])
                                                                  VALUES
-                                                                       (@resultCode
-                                                                       ,@resultMsg
-                                                                       ,@numOfRows
-                                                                       ,@pageNo
-                                                                       ,@totalCount
-                                                                       ,@nttNo
-                                                                       ,@sj
+                                                                       (@sj
                                                                        ,@wrter
                                                                        ,@writngDe
                                                                        ,@cn
@@ -67,13 +49,7 @@ namespace Project_app.Models
                                                                        ,@ty3Insu
                                                                        ,@ty3Picture)";
 
-        public static readonly string SELECT_QUERY = @"SELECT [resultCode]
-                                                             ,[resultMsg]
-                                                             ,[numOfRows]
-                                                             ,[pageNo]
-                                                             ,[totalCount]
-                                                             ,[nttNo]
-                                                             ,[sj]
+        public static readonly string SELECT_QUERY = @"SELECT [sj]
                                                              ,[wrter]
                                                              ,[writngDe]
                                                              ,[cn]
@@ -89,9 +65,9 @@ namespace Project_app.Models
 
         public static readonly string CHECK_QUERY = @"SELECT COUNT(*) 
                                                         FROM AnimalRescue
-                                                       WHERE resultCode = @resultCode";
+                                                       WHERE cn = @cn";
 
-        public static readonly string DELETE_QUERY = @"DELETE FROM [dbo].[AnimalRescue] WHERE resultCode = @resultCode";
+        public static readonly string DELETE_QUERY = @"DELETE FROM [dbo].[AnimalRescue] WHERE cn = @cn";
 
         //public static readonly string GETDATE_QUERY = @"SELECT CONVERT(CHAR(10), Written, 23) AS Save_Date
         //                                                  FROM [dbo].[TravelAlarmService]

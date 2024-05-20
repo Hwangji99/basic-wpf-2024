@@ -23,7 +23,7 @@ namespace Project_app
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        bool isFavorite = false; // 즐겨찾기인지, API로 검색한건지/ True = openAPI, True = 즐겨찾기 보기
+        bool coldCase = false; // 즐겨찾기인지, API로 검색한건지/ True = openAPI, True = 즐겨찾기 보기
 
         public MainWindow()
         {
@@ -44,7 +44,7 @@ namespace Project_app
             //}
 
             SearchAnimal(TxtAnimalKind.Text);
-            isFavorite = false; // 검색은 즐겨찾기 보기 아님
+            coldCase = false; // 검색은 즐겨찾기 보기 아님
             ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
         }
 
@@ -171,123 +171,52 @@ namespace Project_app
             }
         }
 
-        // 즐겨찾기 조회
-        private async void BtnViewFavorite_Click(object sender, RoutedEventArgs e)
+        //private async void BtnWatchTrailer_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (GrdResult.SelectedItems.Count == 0)
+        //    {
+        //        await this.ShowMessageAsync("예고편 보기", "영화를 선택하세요.");
+        //        return;
+        //    }
+
+        //    if (GrdResult.SelectedItems.Count > 1)
+        //    {
+        //        await this.ShowMessageAsync("예고편 보기", "영화를 하나만 선택하세요.");
+        //        return;
+        //    }
+
+        //    var movieName = (GrdResult.SelectedItem as MovieItem).Title;
+
+        //    var trailerWindow = new TrailerWindow(movieName);
+        //    trailerWindow.Owner = this;
+        //    trailerWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        //    trailerWindow.ShowDialog();
+        //}
+
+
+        // 데이터그리드 더블클릭시 발생 이벤트핸들러
+        private async void GrdResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 확인합니다.");
-            this.DataContext = null; // 데이터그리드에 보낸 데이터를 모두 삭제
-            TxtAnimalKind.Text = string.Empty;
+            //var curItem = GrdResult.SelectedItem as AnimalRescue;
 
-            List<AnimalRescue> NCAnimals = new List<AnimalRescue>();
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
-                {
-                    conn.Open();
-
-                    // var : 내부에서 사용하는 동적 선언
-                    var cmd = new SqlCommand(Models.AnimalRescue.SELECT_QUERY, conn);
-                    var adapter = new SqlDataAdapter(cmd);
-                    var dSet = new DataSet();
-                    adapter.Fill(dSet, "AnimalRescue");
-
-                    foreach (DataRow row in dSet.Tables["AnimalRescue"].Rows)
-                    {
-                        var animalRescue = new AnimalRescue()
-                        {
-                            Ty3Ingye = Convert.ToString(row["ty3Ingye"]),
-                            WritngDe = Convert.ToDateTime(row["writngDe"]),
-                            Ty3Place = Convert.ToString(row["ty3Place"]),
-                            Ty3Sex = Convert.ToString(row["ty3Sex"]),
-                            Cn = Convert.ToString(row["cn"]),
-                            Ty3Date = Convert.ToString(row["ty3Date"]),
-                            Wrter = Convert.ToString(row["wrter"]),
-                            Ty3Insu = Convert.ToString(row["ty3Insu"]),
-                            Ty3Picture = Convert.ToString(row["ty3Picture"]),
-                            Ty3Kind = Convert.ToString(row["ty3Kind"]),
-                            Sj = Convert.ToString(row["sj"]),
-                            Ty3Process = Convert.ToString(row["ty3Process"])
-
-                        };
-
-                        NCAnimals.Add(animalRescue);
-                    }
-                    this.DataContext = NCAnimals;
-                    isFavorite = true; // 즐겨찾기 DB에서
-                    //StsResult.Content = $"즐겨찾기 {NCAnimals.Count}건 조회 완료";
-                    ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
-                }
-            }
-            catch (Exception ex)
-            {
-                await this.ShowMessageAsync("오류", $"즐겨찾기 조회 오류 {ex.Message}");
-            }
+            //var mapWindow = new MapWindow(curItem.Coordy, curItem.Coordx);
+            //mapWindow.Owner = this;
+            //mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //mapWindow.ShowDialog();
         }
 
-        // 즐겨찾기 삭제
-        private async void BtnDelFavorite_Click(object sender, RoutedEventArgs e)
-        {
-            // await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 삭제합니다.");
-            if (isFavorite == false)
-            {
-                await this.ShowMessageAsync("삭제", "즐겨찾기한 영화가 아닙니다.");
-                return;
-            }
-
-            if (GrdResult.SelectedItems.Count == 0)
-            {
-                await this.ShowMessageAsync("삭제", "삭제할 영화를 선택하세요.");
-                return;
-            }
-
-            // 삭제시작!
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
-                {
-                    conn.Open();
-
-                    var delRes = 0;
-                    foreach (AnimalRescue item in GrdResult.SelectedItems)
-                    {
-                        SqlCommand cmd = new SqlCommand(Models.AnimalRescue.DELETE_QUERY, conn);
-                        cmd.Parameters.AddWithValue("@cn", item.Cn);
-
-                        delRes += cmd.ExecuteNonQuery();
-                    }
-
-                    if (delRes == GrdResult.SelectedItems.Count)
-                    {
-                        await this.ShowMessageAsync("삭제", $"즐겨찾기 {delRes}건 삭제");
-                    }
-                    else
-                    {
-                        await this.ShowMessageAsync("삭제", $"즐겨찾기 {GrdResult.SelectedItems.Count}건중 {delRes}건 삭제");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                await this.ShowMessageAsync("오류", $"즐겨찾기 삭제 오류 {ex.Message}");
-            }
-
-            BtnViewFavorite_Click(sender, e); // 즐겨찾기 보기 재실행
-        }
-
-        // 즐겨찾기 추가
-        private async void BtnAddFavorite_Click(object sender, RoutedEventArgs e)
+        private async void BtnAddColdcase_Click(object sender, RoutedEventArgs e)
         {
             //await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 추가합니다.");
             if (GrdResult.SelectedItems.Count == 0)
             {
-                await this.ShowMessageAsync("즐겨찾기", "즐겨찾기에 추가 할 영화를 선택하세요 (복수선택 가능)");
+                await this.ShowMessageAsync("미인수건", "미인수건에 추가할 데이터를 선택하세요 (복수선택 가능)");
                 return;
             }
 
-            if (isFavorite == true) // 즐겨찾기 보기한 뒤 영화를 다시 즐겨찾기하려고 할 때 막음
+            if (coldCase == true) // 즐겨찾기 보기한 뒤 영화를 다시 즐겨찾기하려고 할 때 막음
             {
-                await this.ShowMessageAsync("즐겨찾기", "이미 즐겨찾기한 영화입니다.");
+                await this.ShowMessageAsync("미인수건", "이미 추가한 데이터입니다.");
                 return;
             }
 
@@ -334,60 +263,122 @@ namespace Project_app
                 }
                 if (insRes == addanimals.Count)
                 {
-                    await this.ShowMessageAsync("즐겨찾기", $"즐겨찾기 {insRes}건 저장성공!");
+                    await this.ShowMessageAsync("미인수건", $"미인수건 {insRes}건 저장성공!");
                 }
                 else
                 {
-                    await this.ShowMessageAsync("즐겨찾기", $"즐겨찾기 {addanimals.Count}건중 {insRes}건 저장성공!");
+                    await this.ShowMessageAsync("미인수건", $"미인수건 {addanimals.Count}건중 {insRes}건 저장성공!");
                 }
             }
             catch (Exception ex)
             {
 
-                await this.ShowMessageAsync("오류", $"즐겨찾기 오류 {ex.Message}");
+                await this.ShowMessageAsync("오류", $"미인수건 오류 {ex.Message}");
             }
 
-            BtnViewFavorite_Click(sender, e); //저장 후 정자된 즐겨찾기 바로보기
+            BtnViewColdcase_Click(sender, e); //저장 후 정자된 즐겨찾기 바로보기
         }
 
-
-        //private async void BtnWatchTrailer_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (GrdResult.SelectedItems.Count == 0)
-        //    {
-        //        await this.ShowMessageAsync("예고편 보기", "영화를 선택하세요.");
-        //        return;
-        //    }
-
-        //    if (GrdResult.SelectedItems.Count > 1)
-        //    {
-        //        await this.ShowMessageAsync("예고편 보기", "영화를 하나만 선택하세요.");
-        //        return;
-        //    }
-
-        //    var movieName = (GrdResult.SelectedItem as MovieItem).Title;
-
-        //    var trailerWindow = new TrailerWindow(movieName);
-        //    trailerWindow.Owner = this;
-        //    trailerWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        //    trailerWindow.ShowDialog();
-        //}
-
-
-        // 데이터그리드 더블클릭시 발생 이벤트핸들러
-        private async void GrdResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void BtnViewColdcase_Click(object sender, RoutedEventArgs e)
         {
-            //var curItem = GrdResult.SelectedItem as AnimalRescue;
+            //await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 확인합니다.");
+            this.DataContext = null; // 데이터그리드에 보낸 데이터를 모두 삭제
+            TxtAnimalKind.Text = string.Empty;
 
-            //var mapWindow = new MapWindow(curItem.Coordy, curItem.Coordx);
-            //mapWindow.Owner = this;
-            //mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            //mapWindow.ShowDialog();
+            List<AnimalRescue> NCAnimals = new List<AnimalRescue>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
+                {
+                    conn.Open();
+
+                    // var : 내부에서 사용하는 동적 선언
+                    var cmd = new SqlCommand(Models.AnimalRescue.SELECT_QUERY, conn);
+                    var adapter = new SqlDataAdapter(cmd);
+                    var dSet = new DataSet();
+                    adapter.Fill(dSet, "AnimalRescue");
+
+                    foreach (DataRow row in dSet.Tables["AnimalRescue"].Rows)
+                    {
+                        var animalRescue = new AnimalRescue()
+                        {
+                            Ty3Ingye = Convert.ToString(row["ty3Ingye"]),
+                            WritngDe = Convert.ToDateTime(row["writngDe"]),
+                            Ty3Place = Convert.ToString(row["ty3Place"]),
+                            Ty3Sex = Convert.ToString(row["ty3Sex"]),
+                            Cn = Convert.ToString(row["cn"]),
+                            Ty3Date = Convert.ToString(row["ty3Date"]),
+                            Wrter = Convert.ToString(row["wrter"]),
+                            Ty3Insu = Convert.ToString(row["ty3Insu"]),
+                            Ty3Picture = Convert.ToString(row["ty3Picture"]),
+                            Ty3Kind = Convert.ToString(row["ty3Kind"]),
+                            Sj = Convert.ToString(row["sj"]),
+                            Ty3Process = Convert.ToString(row["ty3Process"])
+
+                        };
+
+                        NCAnimals.Add(animalRescue);
+                    }
+                    this.DataContext = NCAnimals;
+                    coldCase = true; // 즐겨찾기 DB에서
+                    //StsResult.Content = $"즐겨찾기 {NCAnimals.Count}건 조회 완료";
+                    ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
+                }
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("오류", $"미인수건 조회 오류 {ex.Message}");
+            }
         }
 
-        private void TxtAnimalKind_KeyDown_1(object sender, KeyEventArgs e)
+        private async void BtnDelColdcase_Click(object sender, RoutedEventArgs e)
         {
+            // await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 삭제합니다.");
+            if (coldCase == false)
+            {
+                await this.ShowMessageAsync("삭제", "추가한 영화가 아닙니다.");
+                return;
+            }
 
+            if (GrdResult.SelectedItems.Count == 0)
+            {
+                await this.ShowMessageAsync("삭제", "삭제할 영화를 선택하세요.");
+                return;
+            }
+
+            // 삭제시작!
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Helpers.Common.CONNSTRING))
+                {
+                    conn.Open();
+
+                    var delRes = 0;
+                    foreach (AnimalRescue item in GrdResult.SelectedItems)
+                    {
+                        SqlCommand cmd = new SqlCommand(Models.AnimalRescue.DELETE_QUERY, conn);
+                        cmd.Parameters.AddWithValue("@cn", item.Cn);
+
+                        delRes += cmd.ExecuteNonQuery();
+                    }
+
+                    if (delRes == GrdResult.SelectedItems.Count)
+                    {
+                        await this.ShowMessageAsync("삭제", $"미인수건 {delRes}건 삭제");
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync("삭제", $"미인수건 {GrdResult.SelectedItems.Count}건중 {delRes}건 삭제");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("오류", $"미인수건 삭제 오류 {ex.Message}");
+            }
+
+            BtnViewColdcase_Click(sender, e); // 즐겨찾기 보기 재실행
         }
     }
 
