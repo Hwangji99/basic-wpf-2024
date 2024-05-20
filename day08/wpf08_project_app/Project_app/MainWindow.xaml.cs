@@ -144,19 +144,26 @@ namespace Project_app
                 }
                 else
                 {
+                    // HttpClient 객체를 사용하여 비동기적으로 이미지 가져오기
                     using (var client = new HttpClient())
                     {
+                        // 사진 URL에서 이미지 스트림 가져오기
                         var imageStream = await client.GetStreamAsync(ty3Picture);
+                        // BitmapImage 객체 생성
                         var bitmapImage = new BitmapImage();
+                        // 이미지 초기화 시작
                         bitmapImage.BeginInit();
+                        // 이미지 스트림 설정
                         bitmapImage.StreamSource = imageStream;
+                        // 이미지 캐시 옵션 설정
                         bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        // 초기화 완료
                         bitmapImage.EndInit();
 
+                        // 이미지를 Image 컨트롤에 표시
                         ImgPoster.Source = bitmapImage;
                     }
                 }
-
             }
             catch (Exception ex)
             {

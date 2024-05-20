@@ -153,7 +153,7 @@
             </Button>-->
 
         </StackPanel>
-
+        <WebBrowser x:Name="MapBrowser" Grid.Row="1" Grid.Column="1" Margin="5" />
         <!--<StatusBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
             <StatusBarItem Content="Tmdb &amp; YouTube OpenAPI App" />
             <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
