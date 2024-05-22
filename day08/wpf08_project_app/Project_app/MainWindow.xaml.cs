@@ -15,6 +15,7 @@ using Microsoft.Data.SqlClient;
 using CefSharp.DevTools.Page;
 using System.Data;
 using System.Net.Http;
+using System.Windows.Threading;
 
 namespace Project_app
 {
@@ -23,11 +24,26 @@ namespace Project_app
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        bool coldCase = false; // 즐겨찾기인지, API로 검색한건지/ True = openAPI, True = 즐겨찾기 보기
+        bool coldCase = false; // 미인수건인지, API로 검색한건지/ True = openAPI, True = 즐겨찾기 보기
+        private DispatcherTimer _timer;
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeDateTimeStatus();
+        }
+
+        private void InitializeDateTimeStatus()
+        {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1); // 1초 간격으로 타이머 설정
+            _timer.Tick += Timer_Tick; // 타이머 틱 이벤트 핸들러 추가
+            _timer.Start(); // 타이머 시작
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            DateTimeStatus.Content = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // 현재 날짜와 시간 표시
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -109,7 +125,7 @@ namespace Project_app
                 if (animalRescues.Count > 0)
                 {
                     this.DataContext = animalRescues;
-                    //StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
+                    StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
                 }
                 else
                 {
@@ -264,6 +280,7 @@ namespace Project_app
                 if (insRes == addanimals.Count)
                 {
                     await this.ShowMessageAsync("미인수건", $"미인수건 {insRes}건 저장성공!");
+                    StsResult.Content = $"DB저장 {insRes}건 성공!";
                 }
                 else
                 {
@@ -322,7 +339,7 @@ namespace Project_app
                     }
                     this.DataContext = NCAnimals;
                     coldCase = true; // 즐겨찾기 DB에서
-                    //StsResult.Content = $"즐겨찾기 {NCAnimals.Count}건 조회 완료";
+                    StsResult.Content = $"미인수건 {NCAnimals.Count}건 조회 완료";
                     ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
                 }
             }
@@ -337,13 +354,13 @@ namespace Project_app
             // await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 삭제합니다.");
             if (coldCase == false)
             {
-                await this.ShowMessageAsync("삭제", "추가한 영화가 아닙니다.");
+                await this.ShowMessageAsync("삭제", "추가한 데이터가 아닙니다.");
                 return;
             }
 
             if (GrdResult.SelectedItems.Count == 0)
             {
-                await this.ShowMessageAsync("삭제", "삭제할 영화를 선택하세요.");
+                await this.ShowMessageAsync("삭제", "삭제할 데이터를 선택하세요.");
                 return;
             }
 

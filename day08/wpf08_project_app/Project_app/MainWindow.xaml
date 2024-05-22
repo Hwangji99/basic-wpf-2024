@@ -154,11 +154,13 @@
             </Button>-->
 
         </StackPanel>
-        
-        <!--<StatusBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <StatusBarItem Content="Tmdb &amp; YouTube OpenAPI App" />
+
+        <!-- 맨하단 상태바 위치 -->
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+            <StatusBarItem Content="부산광역시 반려동물 구조현황 앱" />
             <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
             <StatusBarItem x:Name="StsResult" />
-        </StatusBar>-->
+            <StatusBarItem x:Name="DateTimeStatus" HorizontalAlignment="Right"/>
+        </StatusBar>
     </Grid>
 </mah:MetroWindow>
