@@ -184,5 +184,6 @@ https://github.com/Hwangji99/basic-wpf-2024/assets/158007430/eb0e7001-5514-42ba-
 - 실행화면
 
 
-https://github.com/Hwangji99/basic-wpf-2024/assets/158007430/2e51ecd0-48e6-4fdb-8ca4-8ec6a490a0ce
+https://github.com/Hwangji99/basic-wpf-2024/assets/158007430/1943d782-c673-494a-b8ac-650295956642
+
 
