@@ -17,5 +17,10 @@ namespace ex07_EmployeeMngApp.Views
             Common.DialogCoordinator = DialogCoordinator.Instance; // 생성된 다이얼로그 꾸미기 객체를 공통으로 이전
             this.DataContext = Common.DialogCoordinator;
         }
+
+        private void Id_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
 }

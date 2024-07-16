@@ -93,17 +93,17 @@
                          mah:TextBoxHelper.ClearTextButton="True"/>
                 <TextBox x:Name="Salary" Grid.Row="2" Grid.Column="1"
                          VerticalAlignment="Center"  Height="40"
-                         mah:TextBoxHelper.Watermark="사원명 입력"
+                         mah:TextBoxHelper.Watermark="급여 입력"
                          mah:TextBoxHelper.UseFloatingWatermark="True"
                          mah:TextBoxHelper.ClearTextButton="True"/>      
                 <TextBox x:Name="DeptName" Grid.Row="3" Grid.Column="1"
                          VerticalAlignment="Center" Height="40"
-                         mah:TextBoxHelper.Watermark="사원명 입력"
+                         mah:TextBoxHelper.Watermark="부서명 입력"
                          mah:TextBoxHelper.UseFloatingWatermark="True"
                          mah:TextBoxHelper.ClearTextButton="True"/>
                 <TextBox x:Name="Addr" Grid.Row="4" Grid.Column="1"
                          VerticalAlignment="Center" Height="40" 
-                         mah:TextBoxHelper.Watermark="사원명 입력"
+                         mah:TextBoxHelper.Watermark="주소 입력"
                          mah:TextBoxHelper.UseFloatingWatermark="True"
                          mah:TextBoxHelper.ClearTextButton="True"/>
 
