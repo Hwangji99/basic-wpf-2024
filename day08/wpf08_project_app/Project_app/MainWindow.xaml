@@ -11,11 +11,7 @@
     Title="Animal Rescue Service" Height="580" Width="1000"
     MinHeight="300" MinWidth="600" FontFamily="NanumGothic" 
     WindowStartupLocation="CenterScreen"
-    Loaded="MetroWindow_Loaded"
-    GlowBrush="{DynamicResource AccentColorBrush}"
-    BorderThickness="1"
-    BorderBrush="{DynamicResource AccentColorBrush}"
-    Background="LightGray">
+    Loaded="MetroWindow_Loaded">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <iconPacks:PackIconFontAwesome Kind="PawSolid" Margin="10,7,0,0" Foreground="White" />
@@ -34,13 +30,13 @@
         </Grid.RowDefinitions>
 
         <!-- 맨위쪽 검색 영역 -->
-        <Grid Grid.Row="0" Grid.Column="0" Background="{DynamicResource AccentColorBrush}">
+        <Grid Grid.Row="0" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <TextBox x:Name="TxtAnimalKind" Grid.Row="0" Grid.Column="0" Margin="5,10"
-                     FontSize="14" Foreground="White" Background="Transparent"
+                     FontSize="14"
                      mah:TextBoxHelper.Watermark="조회할 반려동물종 입력"
                      mah:TextBoxHelper.ClearTextButton="True" 
                      mah:TextBoxHelper.UseFloatingWatermark="True"
@@ -52,8 +48,8 @@
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconModern Kind="Magnify" Margin="5" Foreground="White"/>
-                            <TextBlock Text="조회" Margin="5" Foreground="White"/>
+                            <iconPacks:PackIconModern Kind="Magnify" Margin="5" />
+                            <TextBlock Text="{Binding}" Margin="5" />
                         </StackPanel>
                     </DataTemplate>
                 </Button.ContentTemplate>
@@ -81,7 +77,7 @@
 
         <!-- 포스터 영역 -->
         <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-            <GroupBox Header="동물 사진" Margin="10" Background="White"
+            <GroupBox Header="동물 사진" Margin="10"
                       mah:HeaderedControlHelper.HeaderFontSize="14"
                       mah:HeaderedControlHelper.HeaderFontWeight="Bold"
                       mah:HeaderedControlHelper.HeaderHorizontalContentAlignment="Center">
@@ -89,16 +85,15 @@
             </GroupBox>
         </Grid>
 
-        <!-- 버튼 영역 -->
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button x:Name="BtnAddColdcase" Content="미인수건 추가" Margin="5,20" FontSize="12"
                     Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
                     Click="BtnAddColdcase_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconMaterial Kind="PlaylistPlus" Margin="5" Foreground="White"/>
-                            <TextBlock Text="미인수건 추가" Margin="5" Foreground="White"/>
+                            <iconPacks:PackIconMaterial Kind="PlaylistPlus" Margin="5" />
+                            <TextBlock Text="{Binding}" Margin="5" />
                         </StackPanel>
                     </DataTemplate>
                 </Button.ContentTemplate>
@@ -110,8 +105,8 @@
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconMaterial Kind="PlaylistCheck" Margin="5" Foreground="White"/>
-                            <TextBlock Text="미인수건 보기" Margin="5" Foreground="White"/>
+                            <iconPacks:PackIconMaterial Kind="PlaylistCheck" Margin="5" />
+                            <TextBlock Text="{Binding}" Margin="5" />
                         </StackPanel>
                     </DataTemplate>
                 </Button.ContentTemplate>
@@ -123,8 +118,8 @@
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconMaterial Kind="PlaylistRemove" Margin="5" Foreground="White"/>
-                            <TextBlock Text="삭제" Margin="5" Foreground="White"/>
+                            <iconPacks:PackIconMaterial Kind="PlaylistRemove" Margin="5" />
+                            <TextBlock Text="{Binding}" Margin="5" />
                         </StackPanel>
                     </DataTemplate>
                 </Button.ContentTemplate>
