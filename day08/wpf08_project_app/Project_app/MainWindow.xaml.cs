@@ -15,7 +15,6 @@ using Microsoft.Data.SqlClient;
 using CefSharp.DevTools.Page;
 using System.Data;
 using System.Net.Http;
-using System.Windows.Threading;
 
 namespace Project_app
 {
@@ -24,26 +23,11 @@ namespace Project_app
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        bool coldCase = false; // 미인수건인지, API로 검색한건지/ True = openAPI, True = 즐겨찾기 보기
-        private DispatcherTimer _timer;
+        bool coldCase = false; // 즐겨찾기인지, API로 검색한건지/ True = openAPI, True = 즐겨찾기 보기
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeDateTimeStatus();
-        }
-
-        private void InitializeDateTimeStatus()
-        {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1); // 1초 간격으로 타이머 설정
-            _timer.Tick += Timer_Tick; // 타이머 틱 이벤트 핸들러 추가
-            _timer.Start(); // 타이머 시작
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            DateTimeStatus.Content = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // 현재 날짜와 시간 표시
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -69,7 +53,6 @@ namespace Project_app
             string openApiUri = "http://apis.data.go.kr/6260000/BusanPetAnimalInfoService/getPetAnimalInfo?serviceKey=z6BhxEUBu1diXG%2FWmiJHqqj5SbvVqzr%2BikJSCKelgBVoiUaOonc3nsfQn5S9bQAfr9NIkJSf5qPojF%2BPYaR8qg%3D%3D&numOfRows=10&pageNo=1&resultType=json";
             string result = string.Empty;
 
-            // WebRequest, WebResponse 객체
             WebRequest req = null;
             WebResponse res = null;
             StreamReader reader = null;
@@ -81,7 +64,8 @@ namespace Project_app
                 reader = new StreamReader(res.GetResponseStream());
                 result = reader.ReadToEnd();
 
-                // await this.ShowMessageAsync("결과", result);
+                // JSON 결과 출력 (디버깅용)
+                Debug.WriteLine(result);
             }
             catch (Exception ex)
             {
@@ -89,19 +73,29 @@ namespace Project_app
                 return;
             }
 
-            var jsonResult = JObject.Parse(result);
-            var resultCode = Convert.ToInt32(jsonResult["getPetAnimalInfo"]["header"]["resultCode"]);
+            JObject jsonResult = JObject.Parse(result);
+
+            // 전체 JSON 결과를 확인하고 구조를 확인합니다.
+            Debug.WriteLine(jsonResult.ToString());
+
+            // Null 체크 및 JSON 구조에 따른 수정
+            if (jsonResult["response"]?["header"]?["resultCode"] == null)
+            {
+                await this.ShowMessageAsync("오류", "OpenAPI 응답 형식 오류");
+                return;
+            }
+
+            var resultCode = Convert.ToInt32(jsonResult["response"]["header"]["resultCode"]);
 
             if (resultCode == 00)
             {
-                var data = jsonResult["getPetAnimalInfo"]["body"]["items"]["item"];
-                var jsonArray = data as JArray; // json자체에서 []안에 들어간 배열데이터만 Array 변환가능
+                var data = jsonResult["response"]["body"]["items"]["item"];
+                var jsonArray = data as JArray;
 
                 var animalRescues = new List<AnimalRescue>();
                 foreach (var item in jsonArray)
                 {
                     var ty3Kind = Convert.ToString(item["ty3Kind"]);
-                    // 만약 검색어가 비어 있거나, 동물 종류가 검색어를 포함하고 있다면 데이터에 추가합니다.
                     if (string.IsNullOrEmpty(animalKind) || (!string.IsNullOrEmpty(ty3Kind) && ty3Kind.Contains(animalKind, StringComparison.OrdinalIgnoreCase)))
                     {
                         animalRescues.Add(new AnimalRescue()
@@ -125,7 +119,6 @@ namespace Project_app
                 if (animalRescues.Count > 0)
                 {
                     this.DataContext = animalRescues;
-                    StsResult.Content = $"OpenAPI {animalRescues.Count}건 조회완료!";
                 }
                 else
                 {
@@ -138,6 +131,7 @@ namespace Project_app
             }
         }
 
+
         private void TxtAnimalKind_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -146,12 +140,21 @@ namespace Project_app
             }
         }
 
+        // HttpClient 객체를 클래스 수준에서 정의
+        private readonly HttpClient _httpClient = new HttpClient();
+
         private async void GrdResult_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             // 재검색하면 데이터그리드 결과가 바뀌면서 이 이벤트가 다시 발생
             try
             {
                 var animal = GrdResult.SelectedItem as AnimalRescue;
+
+                if (animal == null)
+                {
+                    return; // animal이 null인 경우 아무 작업도 하지 않음
+                }
+
                 var ty3Picture = animal.Ty3Picture;
 
                 if (string.IsNullOrEmpty(ty3Picture))
@@ -160,25 +163,18 @@ namespace Project_app
                 }
                 else
                 {
-                    // HttpClient 객체를 사용하여 비동기적으로 이미지 가져오기
-                    using (var client = new HttpClient())
-                    {
-                        // 사진 URL에서 이미지 스트림 가져오기
-                        var imageStream = await client.GetStreamAsync(ty3Picture);
-                        // BitmapImage 객체 생성
-                        var bitmapImage = new BitmapImage();
-                        // 이미지 초기화 시작
-                        bitmapImage.BeginInit();
-                        // 이미지 스트림 설정
-                        bitmapImage.StreamSource = imageStream;
-                        // 이미지 캐시 옵션 설정
-                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                        // 초기화 완료
-                        bitmapImage.EndInit();
+                    // 사진 URL에서 이미지 스트림 가져오기
+                    var imageStream = await _httpClient.GetStreamAsync(ty3Picture);
 
-                        // 이미지를 Image 컨트롤에 표시
-                        ImgPoster.Source = bitmapImage;
-                    }
+                    // BitmapImage 객체 생성 및 설정
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = imageStream;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+
+                    // 이미지를 Image 컨트롤에 표시
+                    ImgPoster.Source = bitmapImage;
                 }
             }
             catch (Exception ex)
@@ -186,6 +182,18 @@ namespace Project_app
                 Debug.WriteLine($"{ex.Message}");
             }
         }
+
+        // 클래스가 IDisposable 인터페이스를 구현하여 HttpClient 객체를 정리
+        public class YourClassName : IDisposable
+        {
+            private readonly HttpClient _httpClient = new HttpClient();
+
+            public void Dispose()
+            {
+                _httpClient?.Dispose();
+            }
+        }
+
 
         //private async void BtnWatchTrailer_Click(object sender, RoutedEventArgs e)
         //{
@@ -280,7 +288,6 @@ namespace Project_app
                 if (insRes == addanimals.Count)
                 {
                     await this.ShowMessageAsync("미인수건", $"미인수건 {insRes}건 저장성공!");
-                    StsResult.Content = $"DB저장 {insRes}건 성공!";
                 }
                 else
                 {
@@ -339,7 +346,7 @@ namespace Project_app
                     }
                     this.DataContext = NCAnimals;
                     coldCase = true; // 즐겨찾기 DB에서
-                    StsResult.Content = $"미인수건 {NCAnimals.Count}건 조회 완료";
+                    //StsResult.Content = $"즐겨찾기 {NCAnimals.Count}건 조회 완료";
                     ImgPoster.Source = new BitmapImage(new Uri("/No_Picture.png", UriKind.RelativeOrAbsolute));
                 }
             }
@@ -354,13 +361,13 @@ namespace Project_app
             // await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 삭제합니다.");
             if (coldCase == false)
             {
-                await this.ShowMessageAsync("삭제", "추가한 데이터가 아닙니다.");
+                await this.ShowMessageAsync("삭제", "추가한 영화가 아닙니다.");
                 return;
             }
 
             if (GrdResult.SelectedItems.Count == 0)
             {
-                await this.ShowMessageAsync("삭제", "삭제할 데이터를 선택하세요.");
+                await this.ShowMessageAsync("삭제", "삭제할 영화를 선택하세요.");
                 return;
             }
 
@@ -399,5 +406,5 @@ namespace Project_app
         }
     }
 
-    
+
 }
