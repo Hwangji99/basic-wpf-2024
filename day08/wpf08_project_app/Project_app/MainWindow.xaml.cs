@@ -238,7 +238,7 @@ namespace Project_app
                 return;
             }
 
-            if (coldCase == true) // 즐겨찾기 보기한 뒤 영화를 다시 즐겨찾기하려고 할 때 막음
+            if (coldCase == true) 
             {
                 await this.ShowMessageAsync("미인수건", "이미 추가한 데이터입니다.");
                 return;
@@ -361,13 +361,13 @@ namespace Project_app
             // await this.ShowMessageAsync("즐겨찾기", "즐겨찾기 삭제합니다.");
             if (coldCase == false)
             {
-                await this.ShowMessageAsync("삭제", "추가한 영화가 아닙니다.");
+                await this.ShowMessageAsync("삭제", "추가한 사건이 아닙니다.");
                 return;
             }
 
             if (GrdResult.SelectedItems.Count == 0)
             {
-                await this.ShowMessageAsync("삭제", "삭제할 영화를 선택하세요.");
+                await this.ShowMessageAsync("삭제", "삭제할 사건을 선택하세요.");
                 return;
             }
 
