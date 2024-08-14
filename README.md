@@ -23,6 +23,12 @@ IoT 개발자 WPF 학습 리포지토리
         - 4. DockPanel - 컨트롤을 방향에 따라서 도킹시키는 레이아웃
         - 5. Margin - 여백기능, 앵커링 같이함 (중요!)
 
+- WPF 추가학습할때 도움되는 사이트
+    - https://learn.microsoft.com/ko-kr/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern
+    - https://msjo.kr/2019/08/31/1/
+    - https://www.youtube.com/@SingletonSean/playlists
+    - https://github.com/SingletonSean/wpf-tutorials
+
 ## 2일차(2024-04-30)
 - WPF 기본학습
     - 데이터 바인딩 - 데이터 소스(DB, 엑셀, txt, 클라우드에 보관된 데이터원본)에 데이터를 쉽게 가져다쓰기 위해 데이터 핸들링 방법
